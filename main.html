@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+   
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <link href="./css/style.css" rel="stylesheet">
+
+
+   
+   
+   
+    <title>Document</title>
+</head>
+<body>
+  <section>
+    <div class="container text-center">
+
+      <h1 class="mt-5"> WEATHER FORCAST</h1>
+      <form class="py-5 text-start">
+        <div class="form-group pt-5 pb-2">
+          <label for="search" class="form-label text-light fs-1 color"> search location(country)</label>
+          <input class="form-control" name="search" id="search"type="text">
+          
+          </div> 
+          <button class="btn bg-light"> search</button>
+        </form>
+        <!--first row has todays forcast-->
+          <div class="row mb-5 g-4 p-0">
+            <div id="col"class="col-md-4">
+             
+            </div >
+            <div class="col-md-8 p-0 ">
+
+              <div class="inner" id="daily">
+                <div class=" rounded-3 hit position-relative">
+                  <h2 class="">Hourly Weather Forecast</h2>
+                  <table class="table table-responsive rounded-3 hit ">
+                      <thead class="">
+                          <tr>
+                              <th scope="col">Time</th>
+                              <th scope="col">Temperature</th>
+                              <th scope="col">Condition</th>
+                          </tr>
+                      </thead>
+                      <tbody id="hourly" class=" ">
+                          <!-- Dynamically generated rows go here -->
+                         
+                      </tbody>
+                  </table>
+              </div>
+              
+
+
+              </div>
+            </div>
+          </div>   
+        <div  id="col-forcast" class="row fs-4">
+              
+            
+          </div>
+    </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="script/bootstrap.bundle.min.js"></script>
+      <script src="./script/main.js"></script>
+  
+</body>
+</html>

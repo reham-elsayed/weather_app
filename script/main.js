@@ -11,14 +11,17 @@ const hourly = document.getElementById("hourly");
 var country = document.getElementById("search");
 const main = document.getElementById("main");
 const btn =document.querySelector(".btn");
-// country.addEventListener('input', async function(){
-//     console.log(country.value)
 
-// //   let apiData= await detData()
-// // console.log(apiData.forcastday);
-// //  display(apiData);
-// })
+let long, lat;
 
+if (navigator.geolocation){ 
+    navigator.geolocation.getCurrentPosition(function(pos){
+        console.log(pos.coords.latitude)
+        console.log(pos.coords.longitude)
+long = pos.coords.longitude
+lat = pos.coords.latitude
+    })
+}
 
 
 
@@ -27,7 +30,7 @@ const btn =document.querySelector(".btn");
  * attach eventlistener to input field and calls detData to call api and get the data of input country
  * then calls the display function and pass the returned data to it
  */
-let countryValue = country.value?country.value:'egypt';
+let countryValue = country.value?country.value:lat +"," +long;
 console.log(countryValue)
 btn.addEventListener('click', async function(e){
     e.preventDefault();
@@ -58,10 +61,12 @@ btn.addEventListener('click', async function(e){
 // })
 
 async function detData(){
+    const currentLocation = `${long},${lat}`
+    console.log(currentLocation) 
     try{
         
 console.log(countryValue)
-        var data = await fetch(`https://api.weatherapi.com/v1/current.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:'egypt'}&aqi=no`);
+        var data = await fetch(`https://api.weatherapi.com/v1/current.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:currentLocation}&aqi=no`);
         var parseData = await data.json();
         console.log(parseData)
         weatherData= parseData
@@ -123,13 +128,9 @@ break;
 case 'W':
 wind = "West";
 break;
-   } 
-
-    
-   
-   
+   }  
     today.innerHTML= ` 
-    <div class=" d-flex flex-column justify-content-between ${data.current.is_day?'nighty':'sunny'}  rounded-3 h-100 ">
+    <div class=" d-flex flex-column justify-content-between ${data.current.is_day?'sunny':'nighty'}  rounded-3 h-100 ">
      <div class=" d-flex justify-content-between align-items-center card p-1">
      <p class=""> ${time.getDate()} ${month[time.getMonth()]} ${time.getFullYear()}</p>
     <p class=" ">${daysOfWeek[time.getDay()]} </p>
@@ -164,10 +165,11 @@ break;
 //  b157d94d582f4efea61125650240506
 
 async function forcastData(){
+     const currentLocation = `${long},${lat}`
     try{
        
 console.log(countryValue)
-        var data = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:'egypt'}&aqi=no&days=3`);
+        var data = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:currentLocation}&aqi=no&days=3`);
         var parseData = await data.json();
         console.log(parseData)
        let forcastData= parseData;
@@ -228,9 +230,9 @@ forcast.innerHTML =cartoona;
 
 async function hourlyData(){
     try{
-       
+        const currentLocation = `${long},${lat}`
 console.log(countryValue)
-        var data = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:'egypt'}&aqi=no&hour_fields=temp_c,wind_mph`);
+        var data = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=b157d94d582f4efea61125650240506&q=${country.value?country.value:currentLocation}&aqi=no&hour_fields=temp_c,wind_mph`);
         var parseData = await data.json();
         return  parseData;
       
@@ -257,7 +259,7 @@ function displayHourly(data){
         let now = new Date(data.forecast.forecastday[0].hour[i].time)
         let time = formatTime12Hour(now)
        
-        hourly.innerHTML += `<tr class=" ${obj.is_day?'nighty':'sunny'} ">
+        hourly.innerHTML += `<tr class=" ${obj.is_day?'sunny':'nighty'} ">
         <td>${daysOfWeek[now.getDay()]} ${time}  </td>
         <td>${obj.temp_c} C</td>
         <td> ${obj.condition.text} </td>
